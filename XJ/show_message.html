@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>显示留言</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function displayMessages() {
+            const messagesContainer = document.querySelector('.messages');
+            messagesContainer.innerHTML = '';
+
+            // 从localStorage读取留言记录
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            const recentMessageId = localStorage.getItem('messageId');
+
+            // 显示所有留言
+            messages.forEach(message => {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `@${message.name}：${message.message}`;
+
+                // 如果是最近的留言，设置为绿色
+                if (message.id == recentMessageId) {
+                    messageElement.classList.add('recent-message');
+                }
+
+                messagesContainer.appendChild(messageElement);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', displayMessages);
+
+        async function generateCertificate() {
+            // 从localStorage读取用户姓名、messageId和订单号
+            const name = localStorage.getItem('userName');
+            const messageId = localStorage.getItem('messageId');
+            const orderNumber = localStorage.getItem('orderNumber');  // 从localStorage获取订单号
+
+            if (!name || !messageId || !orderNumber) {
+                alert('无法生成证书，缺少必要信息');
+                return;
+            }
+
+            const response = await fetch('/generate_certificate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, message_id: messageId, order_number: orderNumber })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // 将生成的证书数据存储在localStorage中
+                localStorage.setItem('certificate_image_data', result.image_data);
+
+                // 跳转到显示证书的页面
+                window.location.href = 'certificate.html';
+            } else {
+                alert('证书生成失败');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="background-layer"></div>
+    <div class="overlay-layer">
+        <div class="message-container">
+            <div class="top-right"></div>
+            <div class="bottom-left"></div>
+            <div class="message-box">
+                <div class="messages">
+                    <!-- 留言内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+        <button class="verify-button" onclick="generateCertificate()">生成认养证书</button>
+    </div>
+</body>
+</html>

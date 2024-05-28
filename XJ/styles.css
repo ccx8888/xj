@@ -1,0 +1,491 @@
+/* CSS重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'SourceHanSerif';
+    src: url('./fonts/思源宋体Medium.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'SourceHanSerif', Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+.background-layer {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* PC端背景图 */
+@media (min-width: 768px) {
+    .background-layer {
+        background-image: url('./img/PC端背景图.jpg'); /* 替换为PC端背景图片的路径 */
+    }
+}
+
+/* 移动端背景图 */
+@media (max-width: 767px) {
+    .background-layer {
+        background-image: url('./img/移动端背景图.jpg'); /* 替换为移动端背景图片的路径 */
+    }
+}
+
+.verify-background-layer {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* PC端验证背景图 */
+@media (min-width: 768px) {
+    .verify-background-layer {
+        background-image: url('./img/PC端验证背景图.png'); /* 替换为PC端验证背景图片的路径 */
+    }
+}
+
+/* 移动端验证背景图 */
+@media (max-width: 767px) {
+    .verify-background-layer {
+        background-image: url('./img/移动端验证背景图.png'); /* 替换为移动端验证背景图片的路径 */
+    }
+}
+
+.overlay-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    padding: 2vh 2vw; /* 增加一些内边距来适应不同的安全区域 */
+    padding-top: 10vh;
+}
+
+.certificate-overlay-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    padding: 2vh 2vw; /* 增加一些内边距来适应不同的安全区域 */
+    padding-top: 10vh;
+}
+
+/* 移动端验证页面字体样式 */
+@media (max-width: 767px) {
+    .certificate-overlay-layer {
+        padding-bottom: 15vh;
+    }
+}
+
+.message-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.3); /* 调整透明度 */
+    padding: 2vh 2vw; /* 使用相对单位 */
+    max-width: 85vw;
+    width: 85vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1vw; /* 使用相对单位 */
+    overflow: hidden;
+}
+
+/* 移动端竖向布局 */
+@media (max-width: 767px) {
+    .message-container {
+        max-width: 90vw;
+        width: 80vw;
+        height: 65vh;
+        padding: 3vh 3vw; /* 增加一些内边距来适应不同的安全区域 */
+    }
+}
+
+/* 圆点样式 */
+.message-container::before,
+.message-container::after,
+.message-container .top-right,
+.message-container .bottom-left {
+    content: "";
+    position: absolute;
+    background-color: #eddca5f5; /* 调整颜色为黄色 */
+    border-radius: 50%;
+    z-index: 3;
+}
+
+/* PC端圆点样式 */
+@media (min-width: 768px) {
+    .message-container::before,
+    .message-container::after,
+    .message-container .top-right,
+    .message-container .bottom-left {
+        width: 1.5vw; /* 使用相对单位 */
+        height: 1.5vw;
+    }
+
+    .message-container::before {
+        top: 1vh;
+        left: 1vw;
+    }
+
+    .message-container::after {
+        bottom: 1vh;
+        right: 1vw;
+    }
+
+    .message-container .top-right {
+        top: 1vh;
+        right: 1vw;
+    }
+
+    .message-container .bottom-left {
+        bottom: 1vh;
+        left: 1vw;
+    }
+}
+
+/* 移动端圆点样式 */
+@media (max-width: 767px) {
+    .message-container::before,
+    .message-container::after,
+    .message-container .top-right,
+    .message-container .bottom-left {
+        width: 3vw; /* 使用相对单位 */
+        height: 3vw;
+    }
+
+    .message-container::before {
+        top: 1.5vh;
+        left: 3vw;
+    }
+
+    .message-container::after {
+        bottom: 1.5vh;
+        right: 3vw;
+    }
+
+    .message-container .top-right {
+        top: 2vh;
+        right: 2vw;
+   
+    }
+
+    .message-container .bottom-left {
+        bottom: 1.5vh;
+        left: 3vw;
+    }
+}
+
+.message-box {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding: 0 2vw;
+    border-radius: 1vw;
+}
+
+.message-box::-webkit-scrollbar {
+    display: none;
+}
+
+.message-box {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.messages p {
+    padding-left: 3vw;
+    margin: 0.5vh 0;
+    text-align: left;
+    font-family: 'SourceHanSerif', Arial, sans-serif; /* 应用自定义字体 */
+    word-break: break-word; /* 确保长单词在小屏幕上不会溢出 */
+}
+
+/* 新增的样式用于最近留言 */
+.recent-message {
+    color: green; /* 将最新留言设置为绿色 */
+}
+
+/* 按钮样式 */
+.verify-button {
+    background-color: #165634; /* 绿色背景 */
+    color: rgb(255, 255, 255); /* 黑色文字 */
+    padding: 1vh 10vw;
+    border: none;
+    border-radius: 1vw; /* 圆角 */
+    cursor: pointer;
+    margin-top: 6vh;
+    font-family: 'SourceHanSerif', Arial, sans-serif; /* 应用自定义字体 */
+}
+
+/* PC端字体样式 */
+@media (min-width: 768px) {
+    .messages p {
+        font-size: 1.5vw; /* 使用相对单位 */
+    }
+    .verify-button {
+        font-size: 2vw; /* 使用相对单位 */
+    }
+}
+
+/* 移动端字体样式 */
+@media (max-width: 767px) {
+    .messages p {
+        font-size: 3.5vw; /* 使用相对单位 */
+    }
+    .verify-button {
+        font-size: 4vw; /* 使用相对单位 */
+    }
+}
+
+/* 验证页面样式 */
+.verification-container {
+    background: rgba(255, 255, 255, 0.3); /* 调整透明度 */
+    padding: 2vh 2vw; /* 使用相对单位 */
+    max-width: 80vw;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1vw; /* 使用相对单位 */
+    text-align: center;
+}
+
+.verification-container h2 {
+    margin-bottom: 2vh;
+}
+
+/* 输入框样式 */
+.verification-container input {
+    background-color: #165634;
+    color: #ffffff;
+    border: none;
+    border-radius: 1vw;
+    padding: 1vh 1vw;
+    font-size: 1.5vw; /* 使用相对单位 */
+    margin-bottom: 2vh;
+    width: 100%;
+}
+
+/* 按钮样式 */
+.verification-container button {
+    background-color: #165634;
+    color: #ffffff;
+    border: none;
+    border-radius: 1vw;
+    padding: 1vh 5vw;
+    font-size: 1.5vw; /* 使用相对单位 */
+    cursor: pointer;
+}
+
+/* PC端验证页面字体样式 */
+@media (min-width: 768px) {
+    .verification-container h2 {
+        font-size: 2.5vw; /* 使用相对单位 */
+    }
+    .verification-container label {
+        font-size: 2vw;
+    }
+    .verification-container input {
+        font-size: 2vw;
+        padding: 1vh 1vw;
+    }
+    .verification-container button {
+        font-size: 2vw;
+        padding: 1vh 5vw;
+    }
+}
+
+/* 移动端验证页面字体样式 */
+@media (max-width: 767px) {
+    .verification-container h2 {
+        font-size: 5vw; /* 使用相对单位 */
+    }
+    .verification-container label {
+        font-size: 3.5vw;
+    }
+    .verification-container input {
+        font-size: 3.5vw;
+        padding: 1vh 1vw;
+    }
+    .verification-container button {
+        font-size: 3.5vw;
+        padding: 1vh 3vw;
+    }
+}
+
+/* 身份验证页面专用样式 */
+.verify-overlay-layer {
+    position: absolute;
+    top: 30vh; /* 根据需要调整 */
+    right: 20vw; /* 根据需要调整 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    z-index: 2;
+}
+
+
+.verify-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    gap: 7vh;
+}
+
+.verify-form-container input,
+.verify-form-container button {
+    width: 50vw; /* 调整为合适的宽度 */
+    padding: 1vh 2vw; /* 调整内边距 */
+    border-radius: 1vw;
+    border: none;
+    font-size: 1.5vw; /* 调整字体大小 */
+    text-align: center;
+}
+
+.verify-form-container input {
+    background-color: #165634;
+    color: #ffffff;
+}
+
+.verify-form-container button {
+    background-color: #165634;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.verify-form-container button:hover {
+    background-color: #0f4026;
+}
+
+/* PC端字体样式 */
+@media (min-width: 768px) {
+    .verify-form-container input,
+    .verify-form-container button {
+        width: 30vw;
+        font-size: 1.5vw;
+    }
+}
+
+/* 移动端字体样式 */
+@media (max-width: 767px) {
+    .verify-form-container input,
+    .verify-form-container button {
+        height: 10vw;
+        width: 60vw;
+        font-size: 4vw;
+    }
+    .verify-overlay-layer {
+        top: 15vh;
+    }
+}
+
+/* 提交留言页面专用样式 */
+.submit-overlay-layer {
+    position: absolute;
+    top: 20vh; /* 根据需要调整 */
+    right: 20vw; /* 根据需要调整 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    z-index: 2;
+}
+
+.submit-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    gap: 3vh;
+}
+
+.submit-form-container input,
+.submit-form-container button,
+.submit-form-container textarea {
+    width: 50vw; /* 调整为合适的宽度 */
+    padding: 1vh 2vw; /* 调整内边距 */
+    border-radius: 1vw;
+    border: none;
+    font-size: 1.5vw; /* 调整字体大小 */
+    text-align: center;
+}
+
+.submit-form-container textarea {
+    height: 15vh; /* 调整为合适的高度 */
+    resize: none; /* 禁止用户调整大小 */
+    overflow-y: auto; /* 显示纵向滚动条 */
+    background-color: #0e4729;
+    color: #ffffff;
+}
+
+.submit-form-container input {
+    background-color: #165634;
+    color: #ffffff;
+}
+
+.submit-form-container button {
+    background-color: #165634;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.submit-form-container button:hover {
+    background-color: #0f4026;
+}
+
+/* PC端字体样式 */
+@media (min-width: 768px) {
+    .submit-form-container input,
+    .submit-form-container button,
+    .submit-form-container textarea {
+        width: 30vw;
+        font-size: 1.5vw;
+    }
+}
+
+/* 移动端字体样式 */
+@media (max-width: 767px) {
+    .submit-form-container input,
+    .submit-form-container button,
+    .submit-form-container textarea {
+        width: 60vw;
+        font-size: 4vw;
+    }
+    .submit-overlay-layer {
+        top: 10vh;
+    }
+    .submit-form-container textarea {
+        height: 10vh;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>身份验证</title>
+    <link rel="stylesheet" href="styles.css"> <!-- 引入通用样式表 -->
+    <script>
+        async function verifyOrderNumber(event) {
+            event.preventDefault(); // 阻止默认表单提交行为
+
+            const orderNumber = document.getElementById('order-number').value;
+
+            // 管理员账号判断
+            if (orderNumber === 'admin123') {
+                window.location.href = '/admin.html';
+                return;
+            }
+
+            const response = await fetch('/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderNumber: orderNumber })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                // 将userId和orderNumber存储到localStorage
+                localStorage.setItem('userId', result.userId);
+                localStorage.setItem('orderNumber', orderNumber); // 存储订单号
+                // 使用 window.location.href 跳转到提交留言页面
+                window.location.href = '/submit_message.html';
+            } else {
+                if (result.message === '该订单已提交过留言') {
+                    alert('该订单已提交过留言');
+                } else {
+                    alert('对不起，订单号输入有误，请核对后重新输入哈~');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('verification-form').addEventListener('submit', verifyOrderNumber);
+        });
+    </script>
+</head>
+<body>
+    <div class="verify-background-layer"></div>
+    <div class="verify-overlay-layer">
+        <form id="verification-form" class="verify-form-container">
+            <input type="text" id="order-number" name="order-number" placeholder="请输入订单号" required>
+            <button type="submit">下一步</button>
+        </form>
+    </div>
+</body>
+</html>

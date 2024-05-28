@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证书</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .certificate-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* 确保容器填满整个视窗高度 */
+        }
+        
+        .certificate-image {
+            max-width: 75%; /* 控制证书图片的最大宽度 */
+            max-height: 75%; /* 控制证书图片的最大高度 */
+            height: auto; /* 确保图片的高度自动调整 */
+            margin-bottom: 15px; /* 给提示文字和按钮留出一些空间 */
+        }
+
+        .verify-button {
+            background-color: #165634; /* 绿色背景 */
+            color: rgb(255, 255, 255); /* 黑色文字 */
+            padding: 10px 70px;
+            border: none;
+            border-radius: 5px; /* 圆角 */
+            cursor: pointer;
+            font-family: 'SourceHanSerif', Arial, sans-serif;
+            font-size: 18px;
+            text-decoration: none; /* 去掉超链接的下划线 */
+            margin-top: 30px; /* 给按钮和提示文字留出一些空间 */
+        }
+
+        .verify-button:hover {
+            background-color: #0f4026; /* 鼠标悬停时的背景颜色 */
+        }
+
+        .save-hint {
+            font-family: 'SourceHanSerif', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 5px;
+        }
+    </style>
+    <script>
+        function loadCertificate() {
+            const imageData = localStorage.getItem('certificate_image_data');
+            if (imageData) {
+                const imgElement = document.getElementById('certificate-image');
+                imgElement.src = 'data:image/jpeg;base64,' + imageData;
+
+                const saveHint = document.getElementById('save-hint');
+                saveHint.textContent = '长按图片保存或鼠标右键点击保存';
+            } else {
+                alert('无法加载证书');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCertificate);
+
+        function returnToHome() {
+            window.location.href = '/';
+        }
+    </script>
+</head>
+<body>
+    <div class="background-layer"></div>
+    <div class="certificate-overlay-layer certificate-container">
+        <img id="certificate-image" class="certificate-image" src="" alt="证书图片">
+        <p id="save-hint" class="save-hint"></p>
+        <a id="download-link" class="verify-button" href="#" onclick="returnToHome()">返回首页</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理留言</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function fetchMessages() {
+            const response = await fetch('/get_all_messages');
+            const result = await response.json();
+
+            if (result.success) {
+                const messagesContainer = document.querySelector('.messages');
+                messagesContainer.innerHTML = '';
+
+                result.messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message-item');
+                    messageElement.innerHTML = `
+                        <input type="checkbox" class="message-checkbox" data-id="${message.id}">
+                        <span>${message.name}：${message.message}</span>
+                    `;
+                    messagesContainer.appendChild(messageElement);
+                });
+            } else {
+                alert('无法获取留言');
+            }
+        }
+
+        async function deleteMessages() {
+            const checkboxes = document.querySelectorAll('.message-checkbox:checked');
+            const messageIds = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+            if (messageIds.length === 0) {
+                alert('请选择要删除的留言');
+                return;
+            }
+
+            const response = await fetch('/delete_messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message_ids: messageIds })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                fetchMessages();
+            } else {
+                alert('删除留言失败');
+            }
+        }
+
+        function returnToVerifyPage() {
+            window.location.href = '/';
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchMessages);
+
+        function searchMessages() {
+            const searchTerm = document.getElementById('search-term').value.toLowerCase();
+            const messageItems = document.querySelectorAll('.message-item');
+
+            messageItems.forEach(item => {
+                const messageText = item.querySelector('span').textContent.toLowerCase();
+                if (messageText.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    <style>
+        .message-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .message-checkbox {
+            margin-right: 10px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start; /* 移动到左侧 */
+            align-items: center;
+            width: 100%;
+        }
+        .search-container input {
+            width: 30%; /* 缩短搜索栏长度 */
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .messages {
+            margin-top: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            background-color: #165634; /* 绿色背景 */
+            color: rgb(255, 255, 255); /* 白色文字 */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px; /* 圆角 */
+            cursor: pointer;
+            font-family: 'SourceHanSerif', Arial, sans-serif;
+            font-size: 16px;
+            margin: 0 10px; /* 按钮之间的间距 */
+        }
+        .button-container button:hover {
+            background-color: #0f4026; /* 鼠标悬停时的背景颜色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-layer"></div>
+    <div class="overlay-layer">
+        <div class="message-container">
+            <h2>管理留言</h2>
+            <div class="search-container">
+                <input type="text" id="search-term" placeholder="搜索留言..." oninput="searchMessages()">
+            </div>
+            <div class="message-box">
+                <div class="messages">
+                    <!-- 留言内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <div class="button-container">
+                <button onclick="deleteMessages()">删除留言</button>
+                <button onclick="returnToVerifyPage()">返回</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

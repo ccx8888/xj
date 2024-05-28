@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交留言</title>
+    <link rel="stylesheet" href="styles.css"> <!-- 引入通用样式表 -->
+    <script>
+        function validateAndSubmit(event) {
+            event.preventDefault(); // 阻止默认表单提交行为
+
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const userId = localStorage.getItem('userId');  // 从localStorage获取userId
+
+            if (!userId) {
+                alert('用户ID未找到，请重新验证订单号');
+                return;
+            }
+
+            if (name.length > 6) {
+                alert('姓名不得超过6个字符');
+                return;
+            }
+
+            if (message.length > 30) {
+                alert('留言内容不得超过30个字符');
+                return;
+            }
+
+            // 保存姓名到localStorage
+            localStorage.setItem('userName', name);
+
+            // 验证通过，调用后端接口
+            submitMessage(name, message, userId);
+        }
+
+        async function submitMessage(name, message, userId) {
+            const response = await fetch('/submit_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, message: message, userId: userId })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                const newMessage = result.new_message;
+                
+                // 读取localStorage中的留言记录
+                let messages = JSON.parse(localStorage.getItem('messages')) || [];
+                // 将新留言添加到最前面
+                messages.unshift(newMessage);
+                // 将更新后的留言记录保存回localStorage
+                localStorage.setItem('messages', JSON.stringify(messages));
+
+                // 将messageId存储到localStorage
+                localStorage.setItem('messageId', newMessage.id);
+
+                window.location.href = '/show_message.html';
+            } else {
+                alert('留言提交失败');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('message-form').addEventListener('submit', validateAndSubmit);
+        });
+    </script>
+</head>
+<body>
+    <div class="verify-background-layer"></div>
+    <div class="submit-overlay-layer">
+        <form id="message-form" class="submit-form-container">
+            <input type="text" id="name" name="name" placeholder="请输入姓名（6个字符以内）" required>
+            <textarea id="message" name="message" placeholder="请输入留言内容（30个字符以内）" required></textarea>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+</body>
+</html>

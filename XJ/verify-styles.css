@@ -1,0 +1,87 @@
+/* 验证页面专用样式 */
+
+/* 背景图样式 */
+.verify-background-layer {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* PC端验证背景图 */
+@media (min-width: 768px) {
+    .verify-background-layer {
+        background-image: url('./img/PC端验证背景图.png'); /* 替换为PC端验证背景图片的路径 */
+    }
+}
+
+/* 移动端验证背景图 */
+@media (max-width: 767px) {
+    .verify-background-layer {
+        background-image: url('./img/移动端验证背景图.png'); /* 替换为移动端验证背景图片的路径 */
+    }
+}
+
+.verify-overlay-layer {
+    position: absolute;
+    top: 10vh; /* 根据需要调整 */
+    right: 10vw; /* 根据需要调整 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    z-index: 2;
+}
+
+.verify-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 确保输入框和按钮右对齐 */
+    gap: 2vh;
+}
+
+.verify-form-container input,
+.verify-form-container button {
+    width: 20vw; /* 调整为合适的宽度 */
+    padding: 1vh 2vw; /* 调整内边距 */
+    border-radius: 1vw;
+    border: none;
+    font-size: 1.5vw; /* 调整字体大小 */
+    text-align: center;
+}
+
+.verify-form-container input {
+    background-color: #165634;
+    color: #ffffff;
+}
+
+.verify-form-container button {
+    background-color: #165634;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.verify-form-container button:hover {
+    background-color: #0f4026;
+}
+
+/* PC端字体样式 */
+@media (min-width: 768px) {
+    .verify-form-container input,
+    .verify-form-container button {
+        width: 15vw;
+        font-size: 1.5vw;
+    }
+}
+
+/* 移动端字体样式 */
+@media (max-width: 767px) {
+    .verify-form-container input,
+    .verify-form-container button {
+        width: 60vw;
+        font-size: 4vw;
+    }
+}

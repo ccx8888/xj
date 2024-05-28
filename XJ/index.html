@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function goToVerificationPage() {
+            window.location.href = 'verify.html'; // 跳转到verify.html
+        }
+
+        async function fetchMessages() {
+            try {
+                const response = await fetch('/get_messages');
+                const result = await response.json();
+
+                if (result.success) {
+                    const messagesContainer = document.querySelector('.messages');
+                    messagesContainer.innerHTML = '';
+
+                    const messages = result.messages;
+
+                    // 保存到localStorage
+                    localStorage.setItem('messages', JSON.stringify(messages));
+
+                    messages.forEach(message => {
+                        const messageElement = document.createElement('p');
+                        messageElement.textContent = `@${message.name}：${message.message}`;
+                        messagesContainer.appendChild(messageElement);
+                    });
+                } else {
+                    alert('无法获取留言');
+                }
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                alert('服务器错误');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchMessages);
+    </script>
+</head>
+<body>
+    <div class="background-layer"></div>
+    <div class="overlay-layer">
+        <div class="message-container">
+            <div class="top-right"></div>
+            <div class="bottom-left"></div>
+            <div class="message-box">
+                <div class="messages">
+                    <!-- 留言内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+        <button class="verify-button" onclick="goToVerificationPage()">验证身份</button>
+    </div>
+</body>
+</html>
